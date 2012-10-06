@@ -47,7 +47,12 @@ class CCNodeLoader : public CCObject {
         virtual CCNode * loadCCNode(CCNode *, CCBReader * pCCBReader);
         virtual void parseProperties(CCNode * pNode, CCNode * pParent, CCBReader * pCCBReader);
 
+        /* Resource Directory. */
+        std::string getResourceDirectory();
+        void setResourceDirectory(std::string resourceDirectory);
+    
     protected:
+        std::string mResourceDirectory;
         CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(CCNode);
 
         virtual CCPoint parsePropTypePosition(CCNode * pNode, CCNode * pParent, CCBReader * pCCBReader, const char *pPropertyName);

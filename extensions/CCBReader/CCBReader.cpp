@@ -423,6 +423,13 @@ float CCBReader::readFloat() {
     }
 }
 
+void CCBReader::setResourceDirectory(std::string resourceDirectory) {
+    mResourceDirectory = resourceDirectory;
+}
+
+std::string CCBReader::getResourceDirectory() {
+    return mResourceDirectory;
+}
 
 bool CCBReader::getBit() {
     bool bit;
@@ -473,6 +480,7 @@ CCNode * CCBReader::readNodeGraph(CCNode * pParent) {
         return NULL;
     }
 
+    ccNodeLoader->setResourceDirectory(mResourceDirectory);
     CCNode *node = ccNodeLoader->loadCCNode(pParent, this);
 
     // Set root node
@@ -660,7 +668,8 @@ CCBKeyframe* CCBReader::readKeyframe(int type)
         CCString empty("");
         if (spriteSheet->isEqual(&empty))
         {
-            CCTexture2D *texture = CCTextureCache::sharedTextureCache()->addImage(spriteFile->getCString());
+            CCString *fileName = CCString::createWithFormat("%s%s", mResourceDirectory.c_str(), spriteFile->getCString());
+            CCTexture2D *texture = CCTextureCache::sharedTextureCache()->addImage(fileName->getCString());
             CCRect bounds = CCRectMake(0, 0, texture->getContentSize().width, texture->getContentSize().height);
             spriteFrame = CCSpriteFrame::createWithTexture(texture, bounds);
         }
@@ -671,7 +680,8 @@ CCBKeyframe* CCBReader::readKeyframe(int type)
             // Load the sprite sheet only if it is not loaded            
             if (mLoadedSpriteSheets.find(spriteSheet->getCString()) == mLoadedSpriteSheets.end())
             {
-                frameCache->addSpriteFramesWithFile(spriteSheet->getCString());
+                CCString *fileName = CCString::createWithFormat("%s%s", mResourceDirectory.c_str(), spriteSheet->getCString());
+                frameCache->addSpriteFramesWithFile(fileName->getCString());
                 mLoadedSpriteSheets.insert(spriteSheet->getCString());
             }
             

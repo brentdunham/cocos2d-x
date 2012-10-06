@@ -171,6 +171,7 @@ private:
     int mCurrentByte;
     int mCurrentBit;
     
+    std::string mResourceDirectory;
     std::vector<CCString *> mStringCache;
     std::set<std::string> mLoadedSpriteSheets;
     
@@ -178,7 +179,7 @@ private:
     
     CCBAnimationManager *mActionManager;
     std::set<std::string> *mAnimatedProps;
-
+    
     CCNodeLoaderLibrary *mCCNodeLoaderLibrary;
     CCNodeLoaderListener *mCCNodeLoaderListener;
     CCBMemberVariableAssigner *mCCBMemberVariableAssigner;
@@ -225,6 +226,10 @@ public:
     static bool endsWith(CCString * pString, CCString * pEnding);
     static CCString* concat(CCString * pStringA, CCString * pStringB);
 
+    /* Resource Directory. */
+    std::string getResourceDirectory();
+    void setResourceDirectory(std::string resourceDirectory);
+    
     /* Parse methods. */
     int readInt(bool pSigned);
     unsigned char readByte();
